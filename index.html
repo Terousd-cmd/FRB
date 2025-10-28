@@ -3,21 +3,10 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  
   <!-- 
-    FIXED CONTENT SECURITY POLICY (CSP) TAG
-    Added 'https://identitytoolkit.googleapis.com' to connect-src
-    to allow the v9 auth system to work.
+    NO Content-Security-Policy <meta> tag here. 
+    Netlify doesn't need it, and our old one was causing the error.
   -->
-  <meta http-equiv="Content-Security-Policy" content="
-    default-src 'self' https://terousd.neocities.org;
-    script-src 'self' https://www.youtube.com https://s.ytimg.com https://www.gstatic.com;
-    style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com;
-    font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com;
-    frame-src 'self' https://www.youtube.com;
-    connect-src 'self' https://*.firebaseio.com https://www.googleapis.com https://firestore.googleapis.com https://identitytoolkit.googleapis.com;
-  ">
-
   <title>FRB26 by (Terousd)</title>
   <link rel="stylesheet" href="styles.css" />
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet" />
@@ -136,46 +125,17 @@
     <p class="copyright">© 2025 Terousd</p>
   </footer>
 
-  <!-- 
-    FIXED FIREBASE SCRIPT (v9 MODULAR)
-    Changed 'type_to_remove' to 'type="module"'
-  -->
-  <script type="module">
-    // Import the functions you need from the SDKs
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js";
-    import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-auth.js";
-    import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js";
-  
-    // =================================================================
-    // YOUR LIVE FIREBASE CONFIG
-    // =================================================================
-    const firebaseConfig = {
-      apiKey: "AIzaSyA1CkbaFKLSaqWROOl_Q3b_3gjuJCp3pHs",
-      authDomain: "frb-26.firebaseapp.com",
-      projectId: "frb-26",
-      storageBucket: "frb-26.firebasestorage.app",
-      messagingSenderId: "593300775041",
-      appId: "1:593300775041:web:0aa92dddedd935c5f6ad80",
-      measurementId: "G-D63F9N3HPF"
-    };
-
-    // Initialize Firebase and get services
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-    const db = getFirestore(app);
-
-    // Pass these to the main script
-    window.firebaseServices = { auth, db, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut, doc, setDoc, getDoc };
-    
-  </script>
+  <!-- ====== FIREBASE SCRIPT (v8 COMPAT) ====== -->
+  <!-- This is a simpler, more robust way for static sites -->
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
 
   <!-- Your existing scripts -->
   <script src="https://www.youtube.com/iframe_api"></script>
-  <!-- 
-    We add type="module" to script.js so it can 'await' the
-    firebaseServices to be ready.
-  -->
-  <script src="script.js" type="module"></script>
+  
+  <!-- Use 'defer' to make sure it runs after HTML is parsed -->
+  <script src="script.js" defer></script>
 </body>
 </html>
 
