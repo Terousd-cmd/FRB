@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FRB26 - Video Player</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+</head>
+<body>
+  <header>FRB26 by (Terousd)</header>
+
+  <div id="video-app-content">
+    <p id="realtime-clock"></p>
+    <button id="logout-button" style="display: none;">Logout</button> <!-- Hidden for testing -->
+
+    <div class="container">
+
+      <div class="main-content">
+        <div class="video">
+          <div class="video-player" data-id="1">
+
+            <div id="video-placeholder"> <!-- Placeholder shown until first video loads -->
+              <h3 style="color: var(--text-secondary); line-height: 1.5; font-weight: 500;">
+                Loading videos...
+              </h3>
+            </div>
+            <iframe
+              id="player1"
+              src="https://www.youtube.com/embed/?enablejsapi=1&controls=0&modestbranding=1&showinfo=0&rel=0"
+              allow="autoplay; fullscreen"
+              allowfullscreen
+            ></iframe>
+            <div class="video-player-overlay">
+              <button class="overlay-play-btn" data-player="1" title="Play">
+                <i class="fas fa-play"></i>
+              </button>
+            </div>
+            <div class="speed-menu" data-player="1" style="display: none;">
+              <div class="speed-option" data-speed="2">2.0x</div>
+              <div class="speed-option" data-speed="1.5">1.5x</div>
+              <div class="speed-option current-speed" data-speed="1">Normal</div>
+              <div class="speed-option" data-speed="0.75">0.75x</div>
+              <div class="speed-option" data-speed="0.5">0.5x</div>
+            </div>
+
+            <div class="custom-controls" data-player="1">
+              <button class="control-btn rewind-btn" data-player="1" title="Rewind 10s"><i class="fas fa-backward-step"></i></button>
+              <button class="control-btn play-pause-btn" data-player="1"><i class="fas fa-play"></i></button>
+              <button class="control-btn forward-btn" data-player="1" title="Forward 10s"><i class="fas fa-forward-step"></i></button>
+
+              <div class="progress-container" data-player="1">
+                <div class="progress-bar"></div>
+                <span class="seek-tooltip" data-player="1">0:00</span>
+              </div>
+
+              <span class="time-display" data-player="1">0:00 / 0:00</span>
+
+              <button class="control-btn live-btn" data-player="1" style="display: none;" title="Go Live">LIVE</button>
+
+              <button class="control-btn fullscreen-btn" data-player="1"><i class="fas fa-arrows-rotate"></i></button>
+              <button class="control-btn volume-btn" data-player="1"><i class="fas fa-volume-up"></i></button>
+
+              <button class="control-btn settings-btn" data-player="1"><i class="fas fa-cog"></i></button>
+            </div>
+          </div>
+          </div>
+      </div>
+
+      <aside class="sidebar">
+        <h2 id="sidebar-title">Today's Videos</h2> <!-- Updated title -->
+        <!-- Video list will be populated by JavaScript -->
+        <ul class="topic-list" id="topic-list-1" data-player="1">
+           <!-- Initially empty -->
+           <li id="loading-videos-placeholder" style="text-align: center; color: var(--text-secondary); padding: 20px;">Loading...</li>
+        </ul>
+      </aside>
+    </div>
+  </div><!-- End of #video-app-content -->
+
+
+  <footer>
+    <div class="social-icon">
+      <a href="https://t.me/terousd" target="_blank" title="My Telegram Profile">
+        <i class="fab fa-telegram"></i>
+      </a>
+    </div>
+    <p class="telegram-message">Recorded Class lagle telegram e message dau</p>
+    <p class="copyright">© 2025 Terousd</p>
+  </footer>
+
+  <!-- ====== FIREBASE SCRIPT (Required for Database) ====== -->
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script> <!-- Keep for potential future use -->
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+
+
+  <!-- YouTube API script needed for the player -->
+  <script src="https://www.youtube.com/iframe_api"></script>
+
+  <!-- Main script needed for player logic -->
+  <script src="script.js" defer></script>
+</body>
+</html>
+
