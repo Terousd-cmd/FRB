@@ -3,10 +3,6 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <!-- 
-    NOTE: There is NO Content-Security-Policy <meta> tag here.
-    This is what was breaking your site on Netlify.
-  -->
   <title>FRB26 by (Terousd)</title>
   <link rel="stylesheet" href="styles.css" />
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet" />
@@ -15,31 +11,36 @@
 <body>
   <header>FRB26 by (Terousd)</header>
 
-  <!-- ====== LOGIN & SIGNUP FORMS ====== -->
+  <!-- ====== AUTHENTICATION CONTAINER ====== -->
   <div id="auth-container">
+
+    <!-- ====== LOGIN FORM (Google Only) ====== -->
     <div id="login-form" class="auth-form">
-      <h3>Login</h3>
-      <input type="email" id="login-email" placeholder="Email" />
-      <input type="password" id="login-password" placeholder="Password" />
-      <button id="login-button">Login</button>
+      <h3>Login / Sign Up</h3>
+      <p class="auth-subtext">Please sign in with your Google account to continue.</p>
+      
+      <!-- GOOGLE LOGIN BUTTON -->
+      <div class="google-btn-container">
+        <button id="google-login-button" class="google-btn">
+          <!-- Google SVG Icon -->
+          <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="18px" height="18px" viewBox="0 0 48 48"><g><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"></path><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"></path><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"></path><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"></path><path fill="none" d="M0 0h48v48H0z"></path></g></svg>
+          <span>Sign in with Google</span>
+        </button>
+      </div>
+
+      <!-- This paragraph is for showing error messages -->
       <p class="auth-message" id="login-message"></p>
-      <p>Don't have an account? <a href="#" id="show-signup">Sign Up</a></p>
     </div>
     
-    <div id="signup-form" class="auth-form" style="display: none;">
-      <h3>Sign Up</h3>
-      <input type="email" id="signup-email" placeholder="Email" />
-      <input type="password" id="signup-password" placeholder="Password" />
-      <button id="signup-button">Sign Up</button>
-      <p class="auth-message" id="signup-message"></p>
-      <p>Already have an account? <a href="#" id="show-login">Login</a></p>
-    </div>
+    <!-- All other forms (Sign Up, Forgot Pass) are removed -->
+
   </div>
 
   <!-- ====== YOUR MAIN APP (Hidden by default) ====== -->
   <div id="main-app-content" style="display: none;">
+    <!-- ... existing main app content ... -->
     <p id="realtime-clock"></p>
-    <button id="logout-button">Logout</button> <!-- Added logout button -->
+    <button id="logout-button">Logout</button>
 
     <div class="container">
       <div class="main-content">
@@ -116,6 +117,7 @@
   </div><!-- End of #main-app-content -->
 
   <footer>
+    <!-- ... existing footer content ... -->
     <div class="social-icon">
       <a href="https://t.me/terousd" target="_blank" title="My Telegram Profile">
         <i class="fab fa-telegram"></i>

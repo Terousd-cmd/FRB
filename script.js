@@ -24,94 +24,68 @@ document.addEventListener("DOMContentLoaded", () => {
   const auth = firebase.auth();
   const db = firebase.firestore();
 
-  // --- Get DOM Elements ---
+  // --- Get DOM Elements (Simplified) ---
   const authContainer = document.getElementById('auth-container');
   const mainAppContent = document.getElementById('main-app-content');
   const loginForm = document.getElementById('login-form');
-  const signupForm = document.getElementById('signup-form');
-
-  const loginEmail = document.getElementById('login-email');
-  const loginPass = document.getElementById('login-password');
-  const loginBtn = document.getElementById('login-button');
   const loginMsg = document.getElementById('login-message');
-
-  const signupEmail = document.getElementById('signup-email');
-  const signupPass = document.getElementById('signup-password');
-  const signupBtn = document.getElementById('signup-button');
-  const signupMsg = document.getElementById('signup-message');
-
-  const showSignup = document.getElementById('show-signup');
-  const showLogin = document.getElementById('show-login');
   const logoutBtn = document.getElementById('logout-button');
+  const googleLoginBtn = document.getElementById('google-login-button');
 
-  // --- Form Toggling ---
-  if (showSignup) {
-    showSignup.addEventListener('click', (e) => {
-      e.preventDefault();
-      loginForm.style.display = 'none';
-      signupForm.style.display = 'block';
-    });
-  }
+  // --- All other form elements are removed ---
 
-  if (showLogin) {
-    showLogin.addEventListener('click', (e) => {
-      e.preventDefault();
-      loginForm.style.display = 'block';
-      signupForm.style.display = 'none';
-    });
-  }
 
-  // --- Sign Up Logic ---
-  if (signupBtn) {
-    signupBtn.addEventListener('click', () => {
-      const email = signupEmail.value;
-      const pass = signupPass.value;
+  // --- Form Toggling Removed ---
+  
+
+  // --- Sign Up Logic Removed ---
+  
+
+  // --- Login Logic Removed ---
+
+
+  // --- Google Login Logic ---
+  if (googleLoginBtn) {
+    googleLoginBtn.addEventListener('click', () => {
+      const provider = new firebase.auth.GoogleAuthProvider();
       
-      signupMsg.style.color = 'var(--text-primary)';
-      signupMsg.textContent = 'Processing...';
-
-      auth.createUserWithEmailAndPassword(email, pass)
-        .then((userCredential) => {
-          // User created. Now save their "approval" status to the database.
-          db.collection('users').doc(userCredential.user.uid).set({
-            email: email,
-            isApproved: false // <-- This is the approval field
-          })
-          .then(() => {
-            signupMsg.style.color = 'var(--accent-color)';
-            signupMsg.textContent = 'Success! An admin must approve your account before you can log in.';
-            // Don't log them in, force them to wait for approval
-            auth.signOut(); 
-          });
-        })
-        .catch((error) => {
-          signupMsg.style.color = 'var(--live-red)';
-          signupMsg.textContent = error.message;
-        });
-    });
-  }
-
-  // --- Login Logic ---
-  if (loginBtn) {
-    loginBtn.addEventListener('click', () => {
-      const email = loginEmail.value;
-      const pass = loginPass.value;
-
       loginMsg.style.color = 'var(--text-primary)';
-      loginMsg.textContent = 'Logging in...';
+      loginMsg.textContent = 'Opening Google Sign-in...';
 
-      auth.signInWithEmailAndPassword(email, pass)
-        .then((userCredential) => {
-          // Login was successful, but we will check approval
-          // in the onAuthStateChanged listener below.
-          loginMsg.textContent = '';
+      auth.signInWithPopup(provider)
+        .then((result) => {
+          // The signed-in user info.
+          const user = result.user;
+          const isNewUser = result.additionalUserInfo.isNewUser;
+
+          loginMsg.textContent = 'Successfully logged in. Checking approval...';
+
+          // If they are a new user, create their "isApproved: false" doc
+          if (isNewUser) {
+            db.collection('users').doc(user.uid).set({
+              email: user.email,
+              isApproved: false // New social users must also be approved
+            })
+            .then(() => {
+              // The onAuthStateChanged listener will handle the redirect
+            });
+          }
+          // If they are an existing user, the onAuthStateChanged listener
+          // will check their approval status and log them in.
         })
         .catch((error) => {
+          // Handle Errors here.
           loginMsg.style.color = 'var(--live-red)';
           loginMsg.textContent = error.message;
         });
     });
   }
+
+  // --- Facebook Login Logic Removed ---
+
+
+  // --- Forgot Password Logic Removed ---
+
 
   // --- Logout Logic ---
   if (logoutBtn) {
@@ -145,14 +119,32 @@ document.addEventListener("DOMContentLoaded", () => {
             }
           } else {
             // User doc doesn't exist for some reason, or no approval field
-            auth.signOut();
-            if (loginMsg) {
-                loginMsg.style.color = 'var(--live-red)';
-                loginMsg.textContent = 'Error: Could not verify account. Contact admin.';
+            // This can happen if a social login user logs in for the first time
+            // and their doc hasn't been created yet. We check again.
+            if (!doc.exists) {
+              console.log("Creating user doc for social login...");
+              db.collection('users').doc(user.uid).set({
+                email: user.email,
+                isApproved: false
+              }).then(() => {
+                auth.signOut();
+                if (loginMsg) {
+                  loginMsg.style.color = 'var(--live-red)';
+                  loginMsg.textContent = 'Account created! It is pending approval by an admin.';
+                }
+              });
+            } else {
+              // Doc exists but something else is wrong.
+              auth.signOut();
+              if (loginMsg) {
+                  loginMsg.style.color = 'var(--live-red)';
+                  loginMsg.textContent = 'Error: Could not verify account. Contact admin.';
+              }
             }
           }
         })
         .catch(err => {
+          console.error("Error checking auth:", err);
           auth.signOut();
           if (loginMsg) {
             loginMsg.style.color = 'var(--live-red)';
