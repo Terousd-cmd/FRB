@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FRB26 by (Terousd) - Subjects</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+</head>
+<body class="auth-loading">
+  <header>FRB26 by (Terousd)</header>
+
+  <div id="main-app-content" style="display: none;">
+    <p id="realtime-clock"></p>
+    <button id="logout-button">Logout</button>
+
+    <div class="container">
+      <h2 style="width: 100%; text-align: center; color: var(--accent-color);">Select a Subject to Start Learning</h2>
+      
+      <div class="subject-grid">
+        <a href="physics-1st.html" class="subject-card">Physics 1st Paper</a>
+        <a href="physics-2nd.html" class="subject-card">Physics 2nd Paper</a>
+        <a href="chemistry-1st.html" class="subject-card">Chemistry 1st Paper</a>
+        <a href="chemistry-2nd.html" class="subject-card">Chemistry 2nd Paper</a>
+        <a href="math-1st.html" class="subject-card">Math 1st Paper</a>
+        <a href="math-2nd.html" class="subject-card">Math 2nd Paper</a>
+        <a href="biology-1st.html" class="subject-card">Biology 1st Paper</a>
+        <a href="biology-2nd.html" class="subject-card">Biology 2nd Paper</a>
+        <a href="bangla.html" class="subject-card">Bangla</a>
+        <a href="english.html" class="subject-card">English</a>
+        <a href="ict.html" class="subject-card">ICT</a>
+      </div>
+    </div>
+  </div><div id="admin-panel" style="display: none; max-width: 600px; margin: 40px auto; padding: 20px; background: var(--card-color); border-radius: 15px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);">
+    <h2 style="color: var(--accent-color); text-align: center;">Admin Panel</h2>
+    <p style="text-align: center; color: var(--text-secondary); margin-top: -10px;">Welcome, Admin! Manage content and users here.</p>
+    
+    <button id="logout-button-admin" style="display: block; margin: 0 auto 20px auto; padding: 8px 16px; font-family: 'Poppins', sans-serif; font-weight: bold; font-size: 0.9em; color: #fff; background: var(--live-red); border: none; border-radius: 8px; cursor: pointer;">Logout</button>
+
+    <h3 style="color: var(--text-primary); border-bottom: 1px solid var(--text-secondary); padding-bottom: 10px; margin-top: 30px;">Add New Video</h3>
+    <form id="add-video-form" style="display: flex; flex-direction: column; gap: 15px; margin-bottom: 25px; padding-top: 15px;">
+        <select id="video-subject-input" required 
+            style="padding: 10px; border-radius: 5px; border: 1px solid var(--text-secondary); background: rgba(0,0,0,0.2); color: var(--text-primary);">
+            <option value="">-- Select Subject --</option>
+            <option value="physics1">Physics 1st Paper</option>
+            <option value="physics2">Physics 2nd Paper</option>
+            <option value="chemistry1">Chemistry 1st Paper</option>
+            <option value="chemistry2">Chemistry 2nd Paper</option>
+            <option value="math1">Math 1st Paper</option>
+            <option value="math2">Math 2nd Paper</option>
+            <option value="biology1">Biology 1st Paper</option>
+            <option value="biology2">Biology 2nd Paper</option>
+            <option value="bangla">Bangla</option>
+            <option value="english">English</option>
+            <option value="ict">ICT</option>
+        </select>
+        
+        <input type="text" id="video-id-input" placeholder="YouTube Video ID (e.g., d7glwJ5yd20)" required 
+            style="padding: 10px; border-radius: 5px; border: 1px solid var(--text-secondary); background: rgba(0,0,0,0.2); color: var(--text-primary);">
+        <input type="text" id="video-title-input" placeholder="Video Title" required
+            style="padding: 10px; border-radius: 5px; border: 1px solid var(--text-secondary); background: rgba(0,0,0,0.2); color: var(--text-primary);">
+        <button type="submit" style="padding: 10px; background: var(--accent-color); color: var(--bg-color); border: none; border-radius: 5px; cursor: pointer;">Add Video</button>
+        <p id="admin-message" style="text-align: center; font-weight: bold;"></p>
+    </form>
+    
+    <h3 style="color: var(--text-primary); border-bottom: 1px solid var(--text-secondary); padding-bottom: 10px;">Current Videos (Delete)</h3>
+    <ul id="admin-video-list" style="list-style: none; padding: 0;">
+      <p style="text-align: center; color: var(--text-secondary);">Loading videos...</p>
+    </ul>
+    
+    <div id="user-management-section" style="margin-top: 40px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px;">
+        <h3 style="color: var(--text-primary); margin-bottom: 15px;">Pending Users for Approval</h3>
+        <ul id="pending-user-list" style="list-style: none; padding: 0;">
+            <p style="text-align: center; color: var(--text-secondary);">Loading users...</p>
+        </ul>
+        
+        <h3 style="color: var(--text-primary); margin-bottom: 15px; border-top: 1px solid rgba(255,255,255,0.1); margin-top: 30px; padding-top: 15px;">Approved Users (Remove Access)</h3>
+        <ul id="approved-user-list" style="list-style: none; padding: 0;">
+            <p style="text-align: center; color: var(--text-secondary);">Loading users...</p>
+        </ul>
+    </div>
+  </div>
+
+  <footer>
+    <div class="social-icon">
+      <a href="https://t.me/terousd" target="_blank" title="My Telegram Profile">
+        <i class="fab fa-telegram"></i>
+      </a>
+    </div>
+    <p class="telegram-message">Approval er jonno tg te knock korun</p>
+    <p class="copyright">© 2025 Terousd</p>
+  </footer>
+
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+  <script src="https://www.youtube.com/iframe_api"></script>
+  <script src="script.js" defer></script>
+</body>
+</html>
